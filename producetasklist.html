@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRODUCE DEPARTMENT LIST</title>
+    <style>
+        @media print  {
+            body  {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 18px;
+            }
+
+            button, label  {
+                display: none;
+            }
+
+            select  {
+                border-style: none;
+                font-size: 24px;
+            }
+
+            textarea  {
+                border-style: none;
+                font-size: 18px;   
+            }
+
+            #today-tomorrow-buttons, #scanout-checkbox, #frost-in-forecast, #rain-in-forecast, #uncap-checkbox  {
+                display: none;
+            }
+
+            h1  {
+                text-transform: uppercase;
+            }
+        }
+
+        ul  {
+            list-style-type: circle;
+        }
+        
+        .select-staff-on-duty, #stat-holiday, #scanout-instructions, #bananas-uncapped {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="list-header">
+        <h1>produce department list</h1>
+        <h3 id="dayoflist"></h3>
+        <div id="today-tomorrow-buttons">
+            This list is for: 
+            <button id="list-today" onclick="tonightList()">tonight</button>
+            <button id="list-tomorrow" onclick="tomorrowList()">tomorrow</button>
+            <button id="list-day-after" onclick="dayAfterList()">day after</button><br>
+            Will there be stat holiday the next day? <input type="radio" id="yes-stat" name="yes-stat" value="yes" onclick="statHolidayListAppear()"><label for="yes-stat">Yes</label> <input type="radio" id="no-stat" name="no-stat" value="no" onclick="statHolidayListDisappear()"><label for="no-stat">No</label><br>
+            Number of people on duty: <input id="number-of-staff" type="number" max="4" onkeydown="numberOfEmployees(event)"> people:
+        </div>
+    </header>
+
+    <main>
+
+        <div id="allday">
+            <h2 id="h2-general">General Duties</h2>
+                <ul id="all-day-duties-list">
+                    <li id="sweep-logs">Sweep Logs filled out hourly or as needed</li>
+                    <li id="roll-bags">Roll Bags filled as needed</li>
+                </ul>
+        </div>
+
+        <div id="morning-list">
+            <h2 id="h2-1">Morning Items - Department</h2>
+            <div id="dropdown-1">
+
+                <select name="dropdown-menu" id="dropdown-1-select" onchange="selectEmployeeFromList(this)">
+                    <option value="Select Employee">Select Employee</option>
+    
+                </select>
+            </div>
+            <ul id="morning-items-list-person-1">
+                <li id="cull-department">Cull Department Tables & Displays</li>
+                <li id="fill-sensitive-items">Fill Sensitive Items to Display Tables</li>
+            </ul>
+            <h2 id="h2-2">Morning Items - Wet Case</h2>
+            <div id="dropdown-2">
+
+            </div>
+            <ul id="morning-items-list-person-2">
+                <li id="test-ph-levels">Test Sanitizer PH Levels with Test Strips</li>
+                <li id="crisp-leafy-greens">Crisp Leafy Greens</li>
+                <li id="fill-wet-case">Fill Wetcase</li>
+            </ul>
+        </div>
+
+        <div id="warehouse-order">
+            <h2 id="h2-3">Warehouse Order</h2>
+            <div id="dropdown-3">
+
+            </div>
+            <ul id="warehouse-order-list">
+                <li id="spot-remaining-order"></li>
+                <li id="recieve-order"></li>
+                <li id="chilled-product-away"></li>
+                <li id="empty-skids-back"></li>
+            </ul>
+        </div>
+
+        <div id="salad-deck">
+            <h2 id="h2-4">Salad Deck</h2>
+            <div id="dropdown-4">
+
+            </div>
+                <ul id="salad-deck-list">
+                    <li id="check-compliments-salads"></li>
+                    <li id="check-all-other-salads"></li>
+                    <li id="pull-salads"></li>
+                </ul>
+                <p id="scanout-checkbox">Show Scanout Instructions? <input type="checkbox" id="scanout" name="scanout" value="no" onclick="showScanOutInstructions()"></p>
+                <div id="scanout-instructions">
+                    Scanout Instructions
+                    <ul>
+                        <li>Sign Into CAO</li>
+                        <li>Select "Inventory Control"</li>
+                        <li>Select "Adjustments"</li>
+                        <li>Select "Fresh Waste"</li>
+                        <li>Scan each item</li>
+                        <li>Hit "ESC" button on the gun twice</li>
+                        <li>Select "Finalize" using the "Enter" button</li>
+                        <li>Discard product in green bins</li>
+                    </ul>
+                </div>
+        </div>
+
+        <div id="citrus-wall">
+            <h2 id="h2-5">Citrus Wall</h2>
+            <div id="dropdown-5">
+
+            </div>
+            <ul id="citrus-wall-list">
+                <li id="organic-section">Organic Section Filled</li>
+                <li id="loose-and-bagged-citrus">Loose & Bagged Citrus Filled</li>
+                <li id="grapes-and-kiwis">Grapes and Kiwis Filled</li>
+                <li id="pears-section">Pears Filled</li>
+                <li id="berries-section">Berries section filled (two deep on upper level)</li>
+            </ul>
+        </div>
+
+        <div id="tropical-section">
+            <h2 id="h2-6">Tropical</h2>
+            <div id="dropdown-6">
+
+            </div>
+            <ul id="tropial-section-list">
+                <li id="bananas-filled">Bananas full</li>
+                <li id="melons-filled">Melons full</li>
+                <li id="pineapples-papayas-mangoes-filled">Pineapples, papayas, and mangoes filled</li>
+            </ul>
+        </div>
+
+        <div id="apples-section">
+            <h2 id="h2-7">Apples</h2>
+            <div id="dropdown-7">
+            
+            </div>
+            <ul id="apples-list">
+                <li id="loose-apples-filled">Loose apples filled</li>
+                <li id="bagged-apples-filled">Bagged apples filled</li>
+                <li id="bruised-apples-removed">Any bruised apples removed from shelf</li>
+            </ul>
+        </div>
+
+        <div id="hardy-section">
+            <h2 id="h2-8">Hardy Items</h2>
+            <div id="dropdown-8">
+            
+            </div>
+            <ul id="hardy-items-list">
+                <li id="carrots-onions-potatoes-filled">Bagged Carrots & Bagged Onions filled</li>
+                <li id="potatoes-filled">Loose & Bagged Potatoes filled</li>
+                <li id="ethnic-squash-filled">Squash and Ethnic items filled</li>
+            </ul>
+        </div>
+
+        <div id="tomato-cucumber-garlic-section">
+            <h2 id="h2-9">Tomatoes/Cucumbers/Garlic</h2>
+            <div id="dropdown-9">
+            
+            </div>
+            <ul id="apples-list">
+                <li id="tomatoes-filled">HotHouse, Vine, Roma, and grape tomatoes filled</li>
+                <li id="cucumbers-filled">Regular and mini cucumbers filled</li>
+                <li id="avocados-filled">Loose and Bagged Avocados filled</li>
+                <li id="garlic-ginger-filled">Ginger and loose, 3pk, and 5pk Garlic filled</li>
+                <li id="loose-onions-filled">Loose onions filled</li>
+                
+            </ul>
+        </div>
+
+        <div id="wetcase-section">
+            <h2 id="h2-10">Wetcase</h2>
+            <div id="dropdown-10">
+            
+            </div>
+            <ul id="wetcase-list">
+                <li id="hardy-wetcase-filled">Cabbages, beets, turnips, corn, and parnips full</li>
+                <li id="leafy-wetcase-filled">All leafy greens and iceberg lettuces crisp and fresh</li>
+                <li id="peppers-filled">All sweet and hot peppers full</li>
+                <li id="mushrooms-zucchini-eggplant-filled">All mushrooms, zucchini, eggplant, and asparagus filled</li>
+            </ul>
+        </div>
+
+        <div id="wetcase-ethnic-section">
+            <h2 id="h2-11">Ethnic Section</h2>
+            <div id="dropdown-11">
+            
+            </div>
+            <ul id="wetcase-ethnic-list">
+                <li id="bhindi-okra-filled">Bhindi and Okra filled as needed</li>
+                <li id="packaged-ethnic-filled">Packaged ethnic filled and kept neat</li>
+                <li id="loose-ethnic-filled">All loose ethnic items full</li>
+            </ul>
+        </div>
+
+        <div id="garden-center">
+            <h2 id="h2-12">Garden Center</h2>
+            <div id="dropdown-12">
+
+            </div>
+                <ul id="garden-center-list">
+                    <li id="water-outside"></li>
+                    <li id="cover-plants"></li>
+                    <li id="move-plants-inside">Move Plants Inside or Under Overhang</li>
+                    <li id="tidy-garden-displays">Tidy and condense garden center displays</li>
+                </ul>
+                <p id="frost-in-forecast">Frost in Forecast? <input type="checkbox" id="frost-forecast" name="frost-forecast" value="no" onclick="frostInForecast()"></p>
+                <p id="rain-in-forecast">Rain in Forecast? <input type="checkbox" id="rain-forecast" name="rain-forecast" value="no" onclick="rainInForecast()"></p>
+        </div>
+
+        <div id="end-of-night">
+            <h2 id="h2-13">End of Night</h2>
+            <div id="dropdown-13">
+            
+            </div>
+            <ul id="end-of-night-list">
+                <li id="bananas-uncapped">Banana cases in backroom from previous day's order de-lidded</li>
+                <li id="mats-and-covers">Cover loose potatoes</li>
+                <li id="face-sections">Face salad wall and bulk</li>
+            </ul>
+            <p id="uncap-checkbox">Uncap Bananas? <input type="checkbox" id="uncap" name="uncap" value="no" onclick="showUnCapBananasLI()"></p>
+        </div>
+
+        <div id="extra-text">
+            <h2 id="h2-14">Additional Notes:</h2>
+            <textarea rows="6" cols="60" placeholder="Have a Good Shift!"></textarea>
+        </div>
+
+        <div id="stat-holiday">
+            <h2 id="h2-15">Closed Tomorrow</h2>
+            <div id="dropdown-15">
+
+            </div>
+            <ul id="stat-holiday-department-prep">
+                <li id="sensitive-items-removed">Any Berries, Lettuces, Peppers, Grapes, or Mushrooms worked to shelf and/or cooler</li>
+                <li id="items-covered">Potatoes and Mushrooms covered with black matting located under desk by back room phone</li>
+                <li id="bananas-uncapped-stat">Banana cases in backroom de-lidded</li>
+                <li id="case-lights-off">All case lights switched off</li>
+                <li id="night-blinds-down">All night blinds put down</li>
+            </ul>
+        </div>
+
+        <button onclick="printDocument()">Print this page</button>
+
+    </main>
+
+</body>
+
+<!------------------------- SCRIPTS -------------------------->
+
+<script>
+    // DATE
+    var todaysDate = new Date;
+    var todaysDateNumber = todaysDate.getDate();
+    var todaysMonth = todaysDate.getMonth();
+
+    var tomorrowsDate = (new Date().getDate()+1);
+    var twoDaysDate = (new Date().getDate()+2);
+    var threeDaysDate = (new Date().getDate()+3);
+    var fourDaysDate = (new Date().getDate()+4);
+
+    var weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+
+    var dayOfWeek = weekday[todaysDate.getDay()];
+    var tomorrowsWeekDate = weekday[todaysDate.getDay()+1];
+    var dayAfterWeekDate = weekday[todaysDate.getDay()+2];
+
+    // DATA ARRAYS
+    let scheduledEmployees = [];
+
+    // FORM BUTTON DEFAULT VALUES
+    document.getElementById('no-stat').checked = true;
+    document.getElementById('scanout').checked = false;
+    document.getElementById('frost-forecast').checked = false;
+    document.getElementById('bananas-uncapped').checked = false;
+
+    // HIDDEN DROPDOWN MENUS
+    document.getElementById('dropdown-1').style.display = "none";
+    function hideDropDowns()  {
+        for (let i = 0; i > 8; i++)  {
+        document.getElementById('dropdown-' + [i]).style.display = "none";
+        }
+    }
+    hideDropDowns();
+
+    // SALAD WALL INSTRUCTIONS
+    document.getElementById('check-compliments-salads').innerText = ('Reduce Compliments Salads dated ' + twoDaysDate);
+    document.getElementById('check-all-other-salads').innerText = ('Reduce all other salads dated ' + threeDaysDate);
+    document.getElementById('pull-salads').innerText = ('Pull, scan out, and toss all damages dated ' + tomorrowsDate);
+
+    // GARDEN CENTER
+    document.getElementById('move-plants-inside').style.display = "none";
+
+    // --------------------------  FUNCTIONS  ------------------------------------------------------
+
+    // ---------------------------------------------------------------------------------------------
+    // BUILDS EMPLOYEE NAME INPUT FIELDS DEPENDING ON NUMBER ENTERED INTO NUMBER FIELD
+    function numberOfEmployees(event)  {
+        console.log('function numberOfEmployees')
+        var employeesOnDuty = event.key;
+
+        var i;
+        for (i = 0; i < employeesOnDuty; i++)  {
+
+            let staffNameFields = document.createElement('input');
+            staffNameFields.id = ('employee' + i);
+            staffNameFields.name = 'staff-names';
+            staffNameFields.setAttribute('onblur', 'addEmployeesFromFocusOut(this.value)');
+
+            document.getElementById('today-tomorrow-buttons').appendChild(staffNameFields);
+        }
+        
+        let staffOnHandButton = document.createElement('button');
+        staffOnHandButton.innerText = "Submit";
+        staffOnHandButton.setAttribute('onclick', 'staffOnHand()'); 
+        document.getElementById('today-tomorrow-buttons').appendChild(staffOnHandButton);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // BUILDS DROPDOWN LIST FROM scheduledEmployees ARRAY AND APPENDS TO EXISTING DROPDOWN MENUS
+
+    function staffOnHand()  {
+    console.log('function staffOnHand')
+    var employeesOnDuty = event.key;
+
+        document.getElementById('dropdown-1').style.display = "block";
+        scheduledEmployees.push('All Staff');
+
+        for (let i = 0; i < scheduledEmployees.length; i++)  {
+            option = document.createElement('option');
+            option.value = scheduledEmployees[i];
+            option.innerText = scheduledEmployees[i];
+            document.getElementById('dropdown-1-select').appendChild(option);
+        }  
+        addNamesToDropDownLists();
+    }
+    
+    // ---------------------------------------------------------------------------------------------
+    // PUSHES EMPLOYEE NAMES FROM INPUT FIELDS WHEN OUT OF FOCUS
+    function addEmployeesFromFocusOut(name)  {
+        console.log('function addEmployeesFromFocusOut')
+        scheduledEmployees.push(name);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // ADD STAFF NAMES TO DROPDOWN LISTS
+    function addNamesToDropDownLists()  {
+        console.log('function addNamesToDropDownLists')
+        let autoGeneratedDropDownList = document.getElementById('dropdown-1-select');
+        let dropDownListClone = autoGeneratedDropDownList.cloneNode(true);
+
+        for (let i = 2; i < 14; i++)  {
+        document.getElementById('dropdown-' + i).appendChild(dropDownListClone.cloneNode(true));
+        }
+        document.getElementById('dropdown-15').appendChild(dropDownListClone.cloneNode(true));
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // MAKES STAT HOLIDAY INFO APPEAR ONCE RADIO BUTTON IS CLICKED
+    function statHolidayListAppear()  {
+        console.log('function statHolidayListAppear');
+        let statBoxYes = document.getElementById('yes-stat');
+        let statBoxNo = document.getElementById('no-stat');
+        if (statBoxYes.checked == true)  {
+            document.getElementById('stat-holiday').style.display="block";
+            document.getElementById('no-stat').checked = false;
+        }
+
+        document.getElementById('check-compliments-salads').innerText = ('Reduce Compliments Salads dated ' + threeDaysDate);
+        document.getElementById('check-all-other-salads').innerText = ('Reduce all other salads dated ' + fourDaysDate);
+        document.getElementById('pull-salads').innerText = ('Pull, scan out, and toss all damages dated ' + twoDaysDate + ' and earlier');
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // MAKES STAT HOLIDAY INFO DISAPPEAR ONCE RADIO BUTTON IS CLICKED
+    function statHolidayListDisappear()  {
+        console.log('function statHolidayListDisappear')
+        let statBoxYes = document.getElementById('yes-stat');
+        let statBoxNo = document.getElementById('no-stat');
+        if (statBoxNo.checked == true)  {
+            document.getElementById('stat-holiday').style.display="none";
+            document.getElementById('yes-stat').checked = false;
+        }
+    }
+    
+    // ---------------------------------------------------------------------------------------------
+    // MAKES SCANOUT INSTRUCTIONS APPEAR ONCE CHECKBOX IS CLICKED
+    function showScanOutInstructions()  {
+        console.log('function showScanOutInstructions')
+        if (document.getElementById('scanout').checked == true)  {
+            document.getElementById('scanout-instructions').style.display="block";
+        } else {
+            document.getElementById('scanout-instructions').style.display="none";
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // MAKES DE-LID BANANAS LI SHOW ONCE CHECKBOX IS CLICKED
+    function showUnCapBananasLI()  {
+        console.log('function showUnCapBananasLI')
+        if (document.getElementById('uncap').checked == true)  {
+            document.getElementById('bananas-uncapped').style.display="block";
+            document.getElementById('bananas-uncapped-stat').style.display="none";
+        }
+        if (document.getElementById('uncap').checked == false)  {
+            document.getElementById('bananas-uncapped').style.display="none";
+            document.getElementById('bananas-uncapped-stat').style.display="block";
+        } 
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // MAKES TONIGHT LIST APPEAR ONCE TONIGHT BUTTON IS CLICKED
+    function tonightList()  {
+        console.log('function tonightList')
+        document.getElementById('dayoflist').innerText = ('Staff List for: ' + dayOfWeek + " evening");
+        document.getElementById('morning-list').style.display="none";
+        document.getElementById('warehouse-order').style.display="none";
+        document.getElementById('salad-deck').style.display="block";
+        document.getElementById('garden-center').style.display="block";
+        document.getElementById('end-of-night').style.display="block";
+        document.getElementById('wetcase-section').style.display="block";
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // MAKES TOMORROW LIST APPEAR ONCE TOMORROW BUTTON IS CLICKED
+    function tomorrowList()  {
+        console.log('function tomorrowList')
+        document.getElementById('dayoflist').innerText = ('Staff List for: ' + tomorrowsWeekDate);
+        document.getElementById('morning-list').style.display="block";
+        document.getElementById('warehouse-order').style.display="block";
+        document.getElementById('salad-deck').style.display="block";
+        document.getElementById('garden-center').style.display="block";
+        document.getElementById('end-of-night').style.display="block";
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // MAKES DAY AFTER LIST APPEAR ONCE DAY AFTER BUTTON IS CLICKED
+    function dayAfterList()  {
+        console.log('function dayAfterList')
+        document.getElementById('dayoflist').innerText = ('Staff List for: ' + dayAfterWeekDate);
+        document.getElementById('morning-list').style.display="block";
+        document.getElementById('warehouse-order').style.display="block";
+        document.getElementById('salad-deck').style.display="none";
+        document.getElementById('garden-center').style.display="none";
+        document.getElementById('end-of-night').style.display="none";
+        document.getElementById('wetcase-section').style.display="none";
+
+        if (dayAfterWeekDate == undefined /*&& dayOfWeek == 5*/)  {
+            document.getElementById('dayoflist').innerText = ('Staff List for: Sunday');
+        }
+        //(if (dayAfterWeekDate == undefined /*&& dayOfWeek == 6*/)  {
+        //    document.getElementById('dayoflist').innerText = ('Staff List for: Monday');
+        //}
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // SELECT EMPLOYEE FROM LIST GENERATED FROM scheduledEmployees ARRAY AND HAVE IT APPEAR NEXT TO H2 TAG
+    function selectEmployeeFromList(employee)  {
+        console.log("function selectEmployeeFromList(employee)");
+        let value = employee.value;
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // SHOWS GARDEN CENTRE PART OF LIST IN MAY AND JUNE
+    function showGardenCenter()  {
+        if (todaysMonth != 4 || 5)  {
+            document.getElementById('garden-center').style.display="none";
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // FROST IN FORECAST TOGGLE DISPLAY BULLET
+    function frostInForecast()  {
+        console.log('function frostInForecast');
+        if (document.getElementById('frost-forecast').checked == true)  {
+        document.getElementById('move-plants-inside').style.display="block";
+        } else {
+            document.getElementById('move-plants-inside').style.display="none";
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // RAIN IN FORECAST TOGGLE DISPLAY BULLET
+    function rainInForecast()  {
+        console.log('function rainInForecast');
+        if (document.getElementById('rain-forecast').checked == true)  {
+        document.getElementById('water-outside').style.display="none";
+        } else {
+            document.getElementById('water-outside').style.display="block";
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // HIDE WAREHOUSE ORDER LIST ON TUESDAYS
+    function warehouseOrderProcess()  {
+        if (dayOfWeek == 2)  {
+            document.getElementById('warehouse-order').style.display="none";
+        }
+        if (dayOfWeek != 2)  {
+            document.getElementById('spot-remaining-order').innerText = ('Pile away remaining order');
+            document.getElementById('recieve-order').innerText = ('Recieve produce order');
+            document.getElementById('chilled-product-away').innerText = ('All chilled product put in cooler');
+            document.getElementById('empty-skids-back').innerText = ('Return Empty Skids');
+        }
+    }
+    warehouseOrderProcess();
+
+    // ---------------------------------------------------------------------------------------------
+    // HIDE GARDEN CENTER TASKS IN OFF SEASON
+    function gardenCenterProcess()  {
+        if (todaysMonth == 4 || 5)  {
+            document.getElementById('water-outside').innerText = ('Water outside plants');
+            if (todaysMonth == 4)  {document.getElementById('cover-plants').innerText = ('Cover plants')};
+            if (todaysMonth == 5)  {document.getElementById('cover-plants').style.display='none'};
+        }  
+    }
+    gardenCenterProcess();
+
+    // ---------------------------------------------------------------------------------------------
+    // PRINT THE DOCUMENT AND CHANGE UNASSIGNED TASK LISTS TO "ALL STAFF"
+    function printDocument()  {
+        console.log('function printDocument');
+        option = document.getElementsByTagName('option');
+        
+        if (option.textContent = "Select Employee")  {
+            option.textContent = "All Staff"
+        }
+        window.print()
+    }
+ 
+</script>
+</html>
